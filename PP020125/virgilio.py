@@ -178,5 +178,5 @@ class Virgilio:
         # Return the mean length in float format       
         return  float(mean_len)
     
-virgilio = Virgilio("C:/Users/giova/Desktop/Epicode/PP020125/canti")
+virgilio = Virgilio("https://github.com/giovanniurso92/Programming_Principles_Exam/tree/main/PP020125/canti")
 
