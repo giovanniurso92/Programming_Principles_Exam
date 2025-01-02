@@ -99,8 +99,11 @@ class Virgilio:
                         return line_list
     # Defined a method called get_longest_verse for get the longest verse    
     def  get_longest_verse(self,canto_number):
-        lines = self.read_canto_lines(canto_number).readlines()  # must be fixed
+        # Recall submethod of my first method for get lines
+        lines = self.read_canto_lines(canto_number).readlines() 
+        # Calculate the length of the longest line using max method of string
         longest_line = max(lines, key=len)
+        # Return the longest line
         return longest_line
     # Defined a method called get_longest_canto for get the longest canto
     def get_longest_canto(self):
@@ -144,26 +147,36 @@ class Virgilio:
             
                 
         return words_in_canto
-           
+    # Defined a method called get_hell_verses for get all the verses
     def  get_hell_verses(self):
+         # Define a string that will store all the verses start empty
          all_canti = ""
+         # Cicle for each canto in range of 1 to 34
          for canto_number in range(1, 35):
+             # Define a file path and use os library to work with files
              file_path = os.path.join(self.directory, f"Canto_{canto_number}.txt")
              with open(file_path, "r", encoding="utf-8") as file:
                  content = file.read()
+                 # Add the content of the file to the string and add a new line
                  all_canti += (content + "\n")
-         return all_canti
-     
+                 # Return the string
+                 return all_canti
+    # Defined a method called count_hell_verses for count the number of verses 
     def count_hell_verses(self):
+        # Define a string that will store all the verses recalling last method that return all verses
         all_canti = self.get_hell_verses()
+        # Return the number of lines using len method of string
         return len(all_canti.split("\n"))
-        
+    # Defined a method called get_hell_verse_mean_len for get the mean length of the verses    
     def  get_hell_verse_mean_len(self):
+        # Define a string that will store all the verses recalling last method that return all verses
         all_canti = self.get_hell_verses()
+        # Return the number of lines using len method of string and split by new line
         all_canti = all_canti.split("\n")
-        mean_len = sum(len(verse) for verse in all_canti)/len(all_canti)        
+        # Calculate the mean length of the verses
+        mean_len = sum(len(verse) for verse in all_canti)/len(all_canti) 
+        # Return the mean length in float format       
         return  float(mean_len)
     
 virgilio = Virgilio("C:/Users/giova/Desktop/Epicode/PP020125/canti")
 
-print(virgilio.read_canto_lines(898))
