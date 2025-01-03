@@ -1,5 +1,4 @@
 # Imported os library to work with files
-
 import os
 # Imported math library to work with math operations
 import math
@@ -20,8 +19,7 @@ class Virgilio:
         class CantoNotFoundError(Exception):
             def __init__(self, message):
                super().__init__(message)
-              
-        
+                     
         # Verify if canto_number is an integer
         
         if not (isinstance(canto_number,int)):
@@ -36,7 +34,7 @@ class Virgilio:
         num_lines=None
       # Created a variable called file_path for storing the path of the file
         file_path = os.path.join(self.directory, f"Canto_{canto_number}.txt")
-   # Use try-except block for error handling and read the file
+      # Use try-except block for error handling and read the file
         try:
             # Open the file which is in read mode and utf-8 encoding
             with open(file_path, "r", encoding="utf-8") as file:
@@ -51,9 +49,9 @@ class Virgilio:
                  return lines
             # Verify if num_lines is not None and take the number of lines defined on num_lines value
             if num_lines is not None:
-                 lines = file.readlines(num_lines)
+                 
+                 lines = [lines for _ in range(num_lines)]
                  return lines
-                
             return lines    
                 
         except FileNotFoundError:
@@ -149,8 +147,8 @@ class Virgilio:
         return words_in_canto
     # Defined a method called get_hell_verses for get all the verses
     def  get_hell_verses(self):
-         # Define a string that will store all the verses start empty
-         all_canti = ""
+         # Define list of canti start with empty
+         all_canti = []
          # Cicle for each canto in range of 1 to 34
          for canto_number in range(1, 35):
              # Define a file path and use os library to work with files
@@ -158,9 +156,9 @@ class Virgilio:
              with open(file_path, "r", encoding="utf-8") as file:
                  content = file.read()
                  # Add the content of the file to the string and add a new line
-                 all_canti += (content + "\n")
+                 all_canti = all_canti.append(content)
                  # Return the string
-                 return all_canti
+                 return all_canti.split("\n")
     # Defined a method called count_hell_verses for count the number of verses 
     def count_hell_verses(self):
         # Define a string that will store all the verses recalling last method that return all verses
@@ -179,4 +177,5 @@ class Virgilio:
         return  float(mean_len)
     
 virgilio = Virgilio("https://github.com/giovanniurso92/Programming_Principles_Exam/tree/main/PP020125/canti")
+virgilio.get_hell_verses()
 
