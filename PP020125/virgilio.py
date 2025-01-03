@@ -13,7 +13,7 @@ class Virgilio:
         self.directory = directory  
         
     # Created a method called read_canto_lines for reading the canto from file and to format it and return the lines
-    def read_canto_lines(self,canto_number):
+    def read_canto_lines(self,canto_number, strip_lines=True, num_lines=None):
         
         # Created a class called CantoNotFoundError extends Exception for a custom error managment
         class CantoNotFoundError(Exception):
@@ -44,14 +44,17 @@ class Virgilio:
                 #print(lines)
                 # Return the lines
             # Verify if strip_lines is True and make the lines strip for all line using for cicle
-            if strip_lines:
-                 lines = [line.strip() for line in lines]
-                 return lines
-            # Verify if num_lines is not None and take the number of lines defined on num_lines value
-            if num_lines is not None:
-                 
-                 lines = [lines for _ in range(num_lines)]
-                 return lines
+                if strip_lines:
+                    for line in lines:
+                        line.strip()
+                    # Return the lines
+                    return lines
+                    
+                # Verify if num_lines is not None and take the number of lines defined on num_lines value
+                if num_lines is not None:
+                    
+                    lines = [lines for _ in range(num_lines)]
+                    return lines
             return lines    
                 
         except FileNotFoundError:
@@ -88,17 +91,17 @@ class Virgilio:
             # Define an empty list that will store the lines
             line_list = []
             # Recall submethod of my first method for get lines
-            lines = self.read_canto_lines(canto_number).readlines()
+            lines = self.read_canto_lines(canto_number)
             # Cicle for each line and if the word is in the line, add the line to the list
             for line in lines:
                     if word in line:
-                        line_list.append(line)
+                        line_list.extend(line)
                         # Return the full list
                         return line_list
     # Defined a method called get_longest_verse for get the longest verse    
     def  get_longest_verse(self,canto_number):
         # Recall submethod of my first method for get lines
-        lines = self.read_canto_lines(canto_number).readlines() 
+        lines = self.read_canto_lines(canto_number)
         # Calculate the length of the longest line using max method of string
         longest_line = max(lines, key=len)
         # Return the longest line
@@ -151,20 +154,18 @@ class Virgilio:
          all_canti = []
          # Cicle for each canto in range of 1 to 34
          for canto_number in range(1, 35):
-             # Define a file path and use os library to work with files
-             file_path = os.path.join(self.directory, f"Canto_{canto_number}.txt")
-             with open(file_path, "r", encoding="utf-8") as file:
-                 content = file.read()
+                 lines = self.read_canto_lines(canto_number, True)
                  # Add the content of the file to the string and add a new line
-                 all_canti = all_canti.append(content)
+                 all_canti.extend(lines)
                  # Return the string
-                 return all_canti.split("\n")
+         return all_canti
+     
     # Defined a method called count_hell_verses for count the number of verses 
     def count_hell_verses(self):
         # Define a string that will store all the verses recalling last method that return all verses
         all_canti = self.get_hell_verses()
         # Return the number of lines using len method of string
-        return len(all_canti.split("\n"))
+        return len(all_canti)
     # Defined a method called get_hell_verse_mean_len for get the mean length of the verses    
     def  get_hell_verse_mean_len(self):
         # Define a string that will store all the verses recalling last method that return all verses
@@ -176,6 +177,6 @@ class Virgilio:
         # Return the mean length in float format       
         return  float(mean_len)
     
-virgilio = Virgilio("https://github.com/giovanniurso92/Programming_Principles_Exam/tree/main/PP020125/canti")
-virgilio.get_hell_verses()
+virgilio = Virgilio("./PP020125/canti")
+print(virgilio.get_hell_verses())
 
