@@ -7,6 +7,7 @@ import json
 
 # Created a class called Virgilio
 
+globalpath = "./PP020125/canti"
 class Virgilio:
     # Created a constructor as self and directory as parameters
     def __init__(self, directory):
@@ -42,16 +43,20 @@ class Virgilio:
                 # Return the lines
             # Verify if strip_lines is True and make the lines strip for all line using for cicle
                 if strip_lines:
+                    # Define a list that will store the striplines
                     strip_lines = []
+                    # Cicle for each line
                     for line in lines:
+                        # Strip the line
                         strip_line = line.strip()
+                        # Add the stripped line to the list
                         strip_lines.append(strip_line)
-                    # Return the lines
+                    # Return the stripped lines
                     return strip_lines
                     
                 # Verify if num_lines is not None and take the number of lines defined on num_lines value
                 if num_lines is not None:
-                    
+                    # Repeat the lines num_lines times
                     lines = [lines for _ in range(num_lines)]
                     return lines
                 return lines    
@@ -60,9 +65,9 @@ class Virgilio:
             # Print a message if the file is not found or if number of canto file is not found
             
             return print(f"File not found: {file_path}")
-            # Print a message if there is an generic error 
+            # Print a message if there is an error if file not found
         except Exception as e:
-            
+            # Print a message if there is an error
             return print(f"An error occurred: {e}")
         
         
@@ -130,15 +135,11 @@ class Virgilio:
           
         for word in words:
             # Add the word to the dictionary
-           
-            words_in_canto[word] = self.count_word(canto_number,word)   
-                       
+            words_in_canto[word] = self.count_word(canto_number,word)       
         # Open the json file        
         with open (json_file_path, "w") as json_file:
             # Write the dictionary in the json file using json library and setting parameters
             json_file = json.dump(words_in_canto, json_file, indent=4, ensure_ascii=False)
-            
-                
         return words_in_canto
     # Defined a method called get_hell_verses for get all the verses
     def  get_hell_verses(self):
@@ -162,17 +163,15 @@ class Virgilio:
     def  get_hell_verse_mean_len(self):
         # Define a string that will store all the verses recalling last method that return all verses
         all_canti = self.get_hell_verses()
-        # Return the number of lines using len method of string and split by new line
-        all_canti = all_canti.split("\n")
         # Calculate the mean length of the verses
-        mean_len = sum(len(verse) for verse in all_canti)/len(all_canti) 
+        mean_len = int(sum(len(verse) for verse in all_canti)/len(all_canti)) 
         # Return the mean length in float format       
         return  float(mean_len)
     
-virgilio = Virgilio("./PP020125/canti")
+virgilio = Virgilio(globalpath)
 
 # print(virgilio.read_canto_lines(1,strip_lines=True))
-print(virgilio.count_hell_verses())
+print(virgilio.get_hell_verse_mean_len())
 # print(virgilio.read_canto_lines(1,strip_lines=True))
 # print(virgilio.read_canto_lines(1,strip_lines=True))
 # print(virgilio.read_canto_lines(1,strip_lines=True))
